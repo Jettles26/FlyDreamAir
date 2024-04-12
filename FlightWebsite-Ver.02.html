@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlyDreamAir</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  html {
+    height: 100%;
+  }
+
+  #Title {
+    background-color: #27293A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border: 1.5px solid #DBA39A;
+  }
+  
+  .SubtitleContainer {
+    display: flex;
+    justify-content: space-around; /* Center the subtitles */
+  }
+
+  .Subtitle {
+    background-color: #27293A;
+    color: #FFFFFF;
+    text-align: center;
+    height: 70px;
+    border: 1.5px solid #DBA39A;
+    box-sizing: border-box;
+    line-height: 70px; /* Align text vertically */
+    flex: 1;
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+  }
+  
+  .content {
+    background-color: #DBA39A;
+    margin: 100px 75px;
+    padding: 25px;
+    position: relative;
+  }
+  
+  .content input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .content label {
+    margin-left: 10px;
+  }
+  
+  .options {
+    background-color: #977772;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .dropdown-container select {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  /* Styling for labels */
+  .label {
+    color: white;
+    margin-right: 5px;
+  }
+  </style>
+
+<script>
+  function navigateToNextPage() {
+        // Hide page 1 and show page 2
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'block';
+        /*Implement function that repeats through flights*/
+    }
+
+    function noReturn() {
+      if (document.getElementById("One-Way").checked) {
+        document.getElementById("Return").disabled = true;
+      }
+      else {
+        document.getElementById("Return").disabled = false;
+      }
+      
+    }
+</script>
+
+</head>
+<body>
+
+<div id="Title">
+  <h1 style="color: #DBA39A;">FlyDreamAir</h1>
+</div>
+
+<div class="SubtitleContainer">
+  <div class="Subtitle">
+    <h1>Home</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Deals</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Hotels</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Help</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Sign-in</h1>
+  </div>
+</div>
+
+<div class="content" id="page1">
+  <div style="padding-bottom: 10px;">
+    <input type="checkbox" id="One-Way" class="One-Way" onchange="noReturn()">
+    <label for="One-Way">One-Way</label>
+  </div>
+
+  <div class="dropdown-container">
+    <label for="From" class="label">From</label>
+    <select name="From" id="From" class="options">
+      <option disabled selected>Select Origin</option>
+      <option>Papua New Guinea</option>
+    </select>
+    <label for="To" class="label">To</label>
+    <select name="To" id="To" class="options">
+      <option disabled selected>Select Destination</option>
+      <option>Australia</option>
+      <option>USA</option>
+      <option>UK</option>
+    </select>
+  </div>
+
+  <div style="padding-top: 50px;">
+    <label for="Depart" style="color: white; padding-right: 10px;">Departing</label>
+    <input type="date" id="Depart">
+
+    <input type="date" id="Return" style="float: right;">
+    <label for="Return" style="color: white; float: right; padding-right: 10px;">Returning</label>
+  </div>
+
+  <div style="padding-top: 20px;">
+    <button style="position: absolute; bottom: 0;" onclick="navigateToNextPage()">Next -></button>
+  </div>
+</div>
+
+<div class="content" id="page2" style="display: none;">
+  <div>
+    <h1>Ello Brother!</h1>
+  </div>
+  
+</div>
+
+<footer style="background-color: #333; color: #f8f8f8; padding: 20px 0; text-align: center;">
+  <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+      <p>&copy; 2024 FlyDreamAir. All rights reserved.</p>
+  </div> 
+</footer>
+</body>
+</html>
