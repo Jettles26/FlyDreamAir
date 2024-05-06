@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlyDreamAir</title>
+<style>
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: url('https://i.redd.it/4k-wallpaper-santorini-greece-europe-v0-iz8uca059bib1.jpg?width=3840&format=pjpg&auto=webp&s=89497a598ae61be99e708277f179b63dc4277370');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  footer {
+    height: 50px;
+    background-color: #27293A;
+    color: whitesmoke;
+    width: 100%;
+    margin-top: auto;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  #Title {
+    background-color: #27293A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border: 1.5px solid #DBA39A;
+  }
+
+  input, select, button {
+    cursor: pointer;
+  }
+  
+  .SubtitleContainer {
+    display: flex;
+    justify-content: space-around; /* Center the subtitles */
+  }
+
+  .Subtitle {
+    background-color: #27293A;
+    color: #FFFFFF;
+    text-align: center;
+    height: 70px;
+    border: 1.5px solid #DBA39A;
+    box-sizing: border-box;
+    line-height: 70px; /* Align text vertically */
+    flex: 1;
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+  }
+  
+  .content {
+    background-color: #DBA39A;
+    margin: 100px 75px;
+    padding: 25px;
+    position: relative;
+    border:  #c7867b 1px solid;
+  }
+
+  .Flight {
+    background-color: white; 
+    /*padding: 15px;*/
+    position: relative; 
+    /*margin: 10px;*/
+    height: 100px;
+    border:  black 1px solid;
+    display: inline;
+    float: left;
+    cursor: pointer;
+  }
+  
+  .content input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .content label {
+    margin-left: 10px;
+  }
+  
+  .options {
+    background-color: #977772;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .dropdown-container select {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  /* Styling for labels */
+  .label {
+    color: white;
+    margin-right: 5px;
+  }
+  </style>
+
+<script>
+  /*Insert Timer for changing background image*/
+
+  function toPage2() {
+        
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+ 
+    document.getElementById('Places1').textContent =  document.getElementById('From').value + " -> " + document.getElementById('To').value
+    document.getElementById('Places2').textContent =  document.getElementById('From').value + " -> " + document.getElementById('To').value
+  }
+  
+  function toPage3() {
+    document.getElementById('page2').style.display = 'none';
+  }
+/*
+  function required() {
+    if(document.getElementById("From").value != 'Select Origin' &&
+       document.getElementById("To") != 'Select Destination' && 
+       document.getElementById("Depart").value != '' &&
+       document.getElementById("Return") != '') {
+
+        document.getElementById('Next').disabled = false;
+    }
+    else {
+      document.getElementById('Next').disabled = true;
+    }
+  }*/
+
+    function noReturn() {
+      if (document.getElementById("One-Way").checked) {
+        document.getElementById("Return").disabled = true;
+      }
+      else {
+        document.getElementById("Return").disabled = false;
+      }
+      
+    }
+</script>
+
+</head>
+<body>
+
+<div id="Title">
+  <h1 style="color: #DBA39A;">FlyDreamAir</h1>
+</div>
+
+<div class="SubtitleContainer">
+  <div class="Subtitle">
+    <h1>Home</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Deals</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Hotels</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Help</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Sign-in</h1>
+  </div>
+</div>
+
+<div class="content" id="page1">
+  <div style="padding-bottom: 10px;">
+    <input type="checkbox" id="One-Way" class="One-Way" onclick="noReturn()">
+    <label for="One-Way">One-Way</label>
+  </div>
+
+  <div class="dropdown-container">
+    <label for="From" class="label">From</label>
+    <select name="From" id="From" class="options">
+      <option value="Select Origin" disabled selected>Select Origin</option>
+      <option value="SYD">Sydney, Australia</option>
+      <option value="MEL">Melbourne, Australia</option>
+      <option value="AKL">Auckland, New Zealand</option>
+    </select>
+    <label for="To" class="label">To</label>
+    <select name="To" id="To" class="options">
+      <option value="Select Destination" disabled selected>Select Destination</option>
+      <option value="CNS">Cairns, Australia</option>
+      <option value="CAL">California, US</option>
+      <option value="LDN">London, UK</option>
+    </select>
+  </div>
+
+  <div style="padding-top: 50px;">
+    <!--Implement feature so that 'Return' must be after 'Depart'-->  
+    <label for="Depart" style="color: white; padding-right: 10px;">Departing</label>
+    <input type="date" id="Depart">
+
+    <input type="date" id="Return" style="float: right;">
+    <label for="Return" style="color: white; float: right; padding-right: 10px;">Returning</label>
+  </div>
+
+  <div style="padding-top: 20px;">
+    <button id="Next" style="position: absolute; bottom: 0;" onclick="toPage2()">Next -></button>
+  </div>
+
+</div>
+
+<div class="content" id="page2" style="display: none;">
+
+  <div style="display: flex;" onclick="toPage3()">
+    <div class="Flight" style="flex: 1;">
+      <h1 id="Places1">Australia -> Papua New Guinea</h1>
+    </div>
+    <div class="Flight" style="flex: 1;">
+      <h1>12:00 --- 16:00</h1>
+    </div>
+  </div>
+
+  <div style="display: flex; text-align: center;" onclick="toPage3()">
+    <div class="Flight" style="flex: 1;">
+      <img src="data:image/png;base64,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" alt="JetStar" style="height: 91px; width: 137px;">
+    </div>
+    <div class="Flight" style="flex: 1;">
+      <h1>8:40 AM</h1>
+      <h1 id="Date"></h1>
+    </div>
+    <div class="Flight" style="flex: 2;">
+      <h1 id="Places2">Australia -> Papua New Guinea</h1>
+    </div>
+    <div class="Flight" style="flex: 1;">
+      <h1>4:25 PM</h1>
+    </div>
+    <div class="Flight" style="flex: 1;">
+      <h1>From $255</h1>
+      <h2>AUD</h2>
+    </div>
+  </div>
+  
+</div>
+
+<!--Fix footer to keep on the bottom of the page-->
+<footer>
+  <div>
+      <p>&copy; 2024 FlyDreamAir. All rights reserved.</p>
+  </div> 
+</footer>
+</body>
+</html>
