@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +77,9 @@
 
   .Flight {
     background-color: white; 
+    /*padding: 15px;*/
     position: relative; 
+    /*margin: 10px;*/
     height: 100px;
     border:  black 1px solid;
     display: inline;
@@ -129,7 +130,7 @@
     margin-bottom: 5px;
   }
 
-  .form-group input, .form-group select {
+  .form-group input, .form-group select, .form-group textarea {
     width: calc(100% - 22px);
     padding: 10px;
     border: 1px solid #ccc;
@@ -137,10 +138,6 @@
   }
 
   .form-group textarea {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     resize: vertical;
   }
 
@@ -155,6 +152,51 @@
 
   .form-group button:hover {
     background-color: #1f2333;
+  }
+
+  .form-group .checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group .checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  #confirmationModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  #modalContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  #closeModal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  #closeModal:hover,
+  #closeModal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
   }
 
 </style>
@@ -220,13 +262,20 @@
   function noReturn() {
     if (document.getElementById("One-Way").checked) {
       document.getElementById("Return").disabled = true;
-    }
-    else {
+    } else {
       document.getElementById("Return").disabled = false;
     }
   }
-</script>
 
+  function showModal() {
+    document.getElementById('confirmationModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+  }
+
+</script>
 </head>
 <body>
 
@@ -280,9 +329,7 @@
     <input type="date" id="Depart" required>
 
     <input type="date" id="Return" style="float: right;">
-    <label for="Return" style="color: white; float: right; padding-right:
-
- 10px;">Returning</label>
+    <label for="Return" style="color: white; float: right; padding-right: 10px;">Returning</label>
   </div>
 
   <div style="padding-top: 20px;">
@@ -315,13 +362,47 @@
       <input type="tel" id="phone" name="phone" required>
     </div>
     <div class="form-group">
-      <label for="extras">Any Extra Services</label>
-      <textarea id="extras" name="extras" rows="4"></textarea>
+      <label for="address">Address</label>
+      <input type="text" id="address" name="address" required>
     </div>
     <div class="form-group">
-      <button type="button" onclick="toPage3()">Submit</button>
+      <label for="city">City</label>
+      <input type="text" id="city" name="city" required>
+    </div>
+    <div class="form-group">
+      <label for="state">State</label>
+      <input type="text" id="state" name="state" required>
+    </div>
+    <div class="form-group">
+      <label for="zip">Zip Code</label>
+      <input type="text" id="zip" name="zip" required>
+    </div>
+    <div class="form-group">
+      <label for="assistance">Special Assistance</label>
+      <select id="assistance" name="assistance">
+        <option value="none" selected>None</option>
+        <option value="wheelchair">Wheelchair</option>
+        <option value="hearing">Hearing Impairment</option>
+        <option value="visual">Visual Impairment</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group checkbox-container">
+      <input type="checkbox" id="newsletter" name="newsletter">
+      <label for="newsletter">Subscribe to Newsletter</label>
+    </div>
+    <div class="form-group">
+      <button type="button" onclick="showModal()">Submit</button>
     </div>
   </form>
+</div>
+
+<div id="confirmationModal">
+  <div id="modalContent">
+    <span id="closeModal" onclick="closeModal()">&times;</span>
+    <h2>Confirmation</h2>
+    <p>Thank you for submitting your information!</p>
+  </div>
 </div>
 
 <footer>
