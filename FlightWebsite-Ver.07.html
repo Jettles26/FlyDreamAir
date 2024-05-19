@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlyDreamAir</title>
+<style>
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: url('https://i.redd.it/4k-wallpaper-santorini-greece-europe-v0-iz8uca059bib1.jpg?width=3840&format=pjpg&auto=webp&s=89497a598ae61be99e708277f179b63dc4277370');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  footer {
+    height: 50px;
+    background-color: #27293A;
+    color: whitesmoke;
+    width: 100%;
+    margin-top: auto;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .aisle > button {
+    margin-right: 10px;
+    margin-bottom: 6px;
+    padding: 8px;
+    width: 28px;
+    height: 28px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+  }
+
+  #Title {
+    background-color: #27293A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border: 1.5px solid #DBA39A;
+  }
+
+  input, select, button {
+    cursor: pointer;
+  }
+
+  .aisle {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .SubtitleContainer {
+    display: flex;
+    justify-content: space-around; /* Center the subtitles */
+  }
+
+  .Subtitle {
+    background-color: #27293A;
+    color: #FFFFFF;
+    text-align: center;
+    height: 70px;
+    border: 1.5px solid #DBA39A;
+    box-sizing: border-box;
+    line-height: 70px; /* Align text vertically */
+    flex: 1;
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+  }
+  
+  .content {
+    background-color: #DBA39A;
+    margin: 100px 75px;
+    padding: 25px;
+    position: relative;
+    border:  #c7867b 1px solid;
+  }
+
+  .Flight {
+    background-color: white; 
+    /*padding: 15px;*/
+    position: relative; 
+    /*margin: 10px;*/
+    height: 100px;
+    border:  black 1px solid;
+    display: inline;
+    float: left;
+    cursor: pointer;
+    align-content: center
+  }
+  
+  .content input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .content label {
+    margin-left: 10px;
+  }
+  
+  .options {
+    background-color: #977772;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .dropdown-container select {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  /* Styling for labels */
+  .label {
+    color: white;
+    margin-right: 5px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .form-group button {
+    background-color: #27293A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .form-group button:hover {
+    background-color: #1f2333;
+  }
+
+  .form-group .checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group .checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  #confirmationModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  #modalContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  #closeModal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  #closeModal:hover,
+  #closeModal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  </style>
+
+<script src="https://kit.fontawesome.com/124327c535.js" crossorigin="anonymous"></script>
+<script>
+  /*Insert Timer for changing background image*/
+  /*Function to require inputs be complete before page 2*/
+
+  function randomTime() {
+    var hour = Math.floor(Math.random() * (23 + 1) + 1);
+
+    var min = Math.floor(Math.random() * (59 + 1));
+    
+    if(min < 10) {
+      min = "0" + min;
+    }
+    
+    var time = (hour + ":" + min);
+
+    return time;
+  }
+
+  function compareTime(a, b) {
+    aTime = a.split(":");
+    bTime = b.split(":");
+    var output = "";
+    var x;
+    var y;
+    
+    if (parseInt(aTime[0]) > parseInt(bTime[0])) {
+      x = ((24 - parseInt(aTime[0])) + parseInt(bTime[0]));
+    }
+    else {
+      x = Math.abs(parseInt(bTime[0]) - parseInt(aTime[0]));
+    }
+    
+    if(aTime[1] > bTime[1]) {
+      x -= 1;
+      y = (60 - parseInt(aTime[1])) + parseInt(bTime[1]);
+    }
+    else {
+      y = Math.abs(parseInt(aTime[1]) - parseInt(bTime[1]));
+    }
+
+    if(x > 0) {
+      if(x > 1) {
+        if(y > 0) {
+          output += (x + " hours and " + y + " minutes");
+          return output;
+        }
+        else {
+          output += (x + " hours");
+          return output;
+        }
+      }
+      if(y > 0) {
+        output += (x + " hour and " + y + " minutes");
+        return output;
+      }
+      else {
+        output += (x + " hour");
+        return output;
+      }
+    }
+    else {
+      output += (y + " minutes");
+      return output;
+    }
+  }
+
+  function buildFlight(flightNum) {
+    output = "";
+    var id = "flights" + flightNum;
+    var num = parseInt(flightNum);
+
+    output += "<div class=\"Flight\" style=\"flex: 1;\">";
+
+    var a = randomTime();
+    var b = randomTime();
+    var time = compareTime(a, b);
+    
+    output += ("<h2>" + a + " - " + b + "</h2>");
+    output += ("<h2>" + time + "</h2>");
+    output += "</div>";
+
+    output += "<div class=\"Flight\" style=\"flex: 1;\">";
+    output += "<i class=\"fa-solid fa-plane\"></i>";
+
+    if(num <= 3) {
+      output += "<h2>" + document.getElementById('From').value + " <i class=\"fa-solid fa-right-long\"></i> " + document.getElementById('To').value + "</h2>";
+    }
+    else {
+      output += "<h2>" + document.getElementById('To').value + " <i class=\"fa-solid fa-right-long\"></i> " + document.getElementById('From').value + "</h2>";
+    }
+    
+    output += "</div>";
+    
+    output += "<div class=\"Flight\" style=\"flex: 1;\">";
+
+    output += "<h2>$" + Math.floor(Math.random() * (1000 + 1) + 500) + " AUD </h2>";
+    output += "</div>";
+
+    document.getElementById(id).innerHTML = output;
+  }
+
+  function seatConstruction(pageNum) {
+    output1 = "";
+    output2 = "";
+    output3 = "";
+
+    if(parseInt(pageNum) == 3) {
+
+      for(let i = 75; i>=73; i--) {
+      output1 += "<div class=\"aisle\">";
+      if(i==73) {
+        i = 72;
+      }
+      for(let j = 1; j<=25; j++) {
+        output1 += "<button type = \"button\" onclick=\"toPage4()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output1 += "</div>";
+    }
+
+    for(let i = 71; i>=68; i--) {
+      output2 += "<div class=\"aisle\">";
+      
+      for(let j = 1; j<=25; j++) {
+        output2 += "<button type = \"button\" onclick=\"toPage4()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output2 += "</div>";
+    }
+
+    for(let i = 67; i>=65; i--) {
+      output3 += "<div class=\"aisle\">";
+      
+      for(let j = 1; j<=25; j++) {
+        output3 += "<button type = \"button\" onclick=\"toPage4()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output3 += "</div>";
+    }
+    
+    document.getElementById('row1').innerHTML = output1;
+    document.getElementById('row2').innerHTML = output2;
+    document.getElementById('row3').innerHTML = output3;
+    }
+
+    else if(parseInt(pageNum) == 5) {
+
+      for(let i = 75; i>=73; i--) {
+      output1 += "<div class=\"aisle\">";
+      if(i==73) {
+        i = 72;
+      }
+      for(let j = 1; j<=25; j++) {
+        output1 += "<button type = \"button\" onclick=\"toPage6()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output1 += "</div>";
+    }
+
+    for(let i = 71; i>=68; i--) {
+      output2 += "<div class=\"aisle\">";
+      
+      for(let j = 1; j<=25; j++) {
+        output2 += "<button type = \"button\" onclick=\"toPage6()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output2 += "</div>";
+    }
+
+    for(let i = 67; i>=65; i--) {
+      output3 += "<div class=\"aisle\">";
+      
+      for(let j = 1; j<=25; j++) {
+        output3 += "<button type = \"button\" onclick=\"toPage6()\">" + String.fromCharCode(i) + j + "</button>";
+      }
+      output3 += "</div>";
+    }
+    
+    document.getElementById('row4').innerHTML = output1;
+    document.getElementById('row5').innerHTML = output2;
+    document.getElementById('row6').innerHTML = output3;
+    }
+
+    
+  }
+
+  function showModal() {
+    document.getElementById('confirmationModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+  }
+
+  function toPage2() {
+      document.getElementById('page1').style.display = 'none';
+      document.getElementById('page2').style.display = 'block';
+      
+      flightNum = 1;
+      while(flightNum <= 3) {
+        buildFlight(flightNum.toString());
+        flightNum++;
+      }
+      
+    }
+
+  function toPage3() {
+    document.getElementById('page2').style.display = 'none';
+    document.getElementById('page3').style.display = 'block';
+
+    seatConstruction(3);
+  }
+    
+  function toPage4() {
+    document.getElementById('page3').style.display = 'none';
+
+    if(document.getElementById("One-Way").checked) {
+      document.getElementById('page6').style.display = 'block';
+    }
+    else {
+      document.getElementById('page4').style.display = 'block';
+      
+      flightNum = 4;
+      while(flightNum <= 6) {
+        buildFlight(flightNum.toString());
+        flightNum++;
+      }
+    }
+    
+  }
+
+  function toPage5() {
+    document.getElementById('page4').style.display = 'none';
+    document.getElementById('page5').style.display = 'block';
+
+    seatConstruction(5);
+  }
+
+  function toPage6() {
+    document.getElementById('page5').style.display = 'none';
+    document.getElementById('page6').style.display = 'block';
+  }
+
+  function noReturn() {
+    if (document.getElementById("One-Way").checked) {
+      document.getElementById("Return").disabled = true;
+    }
+    else {
+      document.getElementById("Return").disabled = false;
+    }
+      
+  }
+</script>
+
+</head>
+<body>
+
+<div id="Title">
+  <h1 style="color: #DBA39A;">FlyDreamAir</h1>
+</div>
+
+<div class="SubtitleContainer">
+  <div class="Subtitle">
+    <h1>Home</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Deals</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Hotels</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Help</h1>
+  </div>
+  <div class="Subtitle">
+    <h1>Sign-in</h1>
+  </div>
+</div>
+
+<div class="content" id="page1">
+  <div style="padding-bottom: 10px;">
+    <input type="checkbox" id="One-Way" class="One-Way" onclick="noReturn()">
+    <label for="One-Way">One-Way</label>
+  </div>
+
+  <div class="dropdown-container">
+    <label for="From" class="label">From</label>
+    <select name="From" id="From" class="options" onchange="required()" required>
+      <option value="Select Origin" disabled selected>Select Origin</option>
+      <option value="SYD">Sydney, Australia</option>
+      <option value="MEL">Melbourne, Australia</option>
+      <option value="AKL">Auckland, New Zealand</option>
+    </select>
+    <label for="To" class="label">To</label>
+    <select name="To" id="To" class="options" onchange="required()" required>
+      <option value="Select Destination" disabled selected>Select Destination</option>
+      <option value="CNS">Cairns, Australia</option>
+      <option value="CAL">California, US</option>
+      <option value="LDN">London, UK</option>
+    </select>
+  </div>
+
+  <div style="padding-top: 50px;">
+    <!--Implement feature so that 'Return' must be after 'Depart'-->  
+    <label for="Depart" style="color: white; padding-right: 10px;">Departing</label>
+    <input type="date" id="Depart" onchange="required()" required>
+
+    <input type="date" id="Return" style="float: right;" onchange="required()" required>
+    <label for="Return" style="color: white; float: right; padding-right: 10px;">Returning</label>
+  </div>
+
+  <div style="padding-top: 20px;">
+    <button id="Next" style="position: absolute; bottom: 0;" onclick="toPage2()">Search Flights</button>
+  </div>
+
+</div>
+
+<div class="content" id="page2" style="display: none;">
+
+  <div id="flights1" style="display: flex; text-align: center;" onclick="toPage3()">
+  </div>
+
+  <div id="flights2" style="display: flex; text-align: center;" onclick="toPage3()">
+  </div>
+
+  <div id="flights3" style="display: flex; text-align: center;" onclick="toPage3()">
+  </div>
+
+</div>
+
+<div class="content" id="page3" style="display: none;">
+  <div id="row1" style="margin-bottom: 14px;"></div>
+  <div id="row2" style="margin-bottom: 14px;"></div>
+  <div id="row3" style="margin-bottom: 14px;"></div>
+</div>
+
+<div class="content" id="page4" style="display: none;">
+
+  <div id="flights4" style="display: flex; text-align: center;" onclick="toPage5()">
+  </div>
+
+  <div id="flights5" style="display: flex; text-align: center;" onclick="toPage5()">
+  </div>
+
+  <div id="flights6" style="display: flex; text-align: center;" onclick="toPage5()">
+  </div>
+
+</div>
+
+<div class="content" id="page5" style="display: none;">
+  <div id="row4" style="margin-bottom: 14px;"></div>
+  <div id="row5" style="margin-bottom: 14px;"></div>
+  <div id="row6" style="margin-bottom: 14px;"></div>
+</div>
+
+<div class="content" id="page6" style="display: none;">
+  <h2 style="color: #27293A;">Customer Information</h2>
+  <form id="customerInfoForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input type="text" id="address" name="address" required>
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" id="city" name="city" required>
+    </div>
+    <div class="form-group">
+      <label for="state">State</label>
+      <input type="text" id="state" name="state" required>
+    </div>
+    <div class="form-group">
+      <label for="zip">Zip Code</label>
+      <input type="text" id="zip" name="zip" required>
+    </div>
+    <div class="form-group">
+      <label for="assistance">Special Assistance</label>
+      <select id="assistance" name="assistance">
+        <option value="none" selected>None</option>
+        <option value="wheelchair">Wheelchair</option>
+        <option value="hearing">Hearing Impairment</option>
+        <option value="visual">Visual Impairment</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group checkbox-container">
+      <input type="checkbox" id="newsletter" name="newsletter">
+      <label for="newsletter">Subscribe to Newsletter</label>
+    </div>
+    <div class="form-group">
+      <button type="button" onclick="showModal()">Submit</button>
+    </div>
+  </form>
+</div>
+
+<div id="confirmationModal">
+  <div id="modalContent">
+    <span id="closeModal" onclick="closeModal()">&times;</span>
+    <h2>Confirmation</h2>
+    <p>Thank you for submitting your information!</p>
+  </div>
+</div>
+
+<footer>
+  <div>
+      <p>&copy; 2024 FlyDreamAir. All rights reserved.</p>
+  </div> 
+</footer>
+</body>
+</html>
